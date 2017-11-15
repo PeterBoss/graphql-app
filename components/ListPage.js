@@ -8,9 +8,11 @@ import {
   ListView,
   Modal,
   StyleSheet,
-  Text
+  Text,
+  AsyncStorage
 } from 'react-native'
 import CreateAssignment from './CreateAssignment'
+import Login from './Login'
 
 const allAssignmentsQuery = gql`
   query {
@@ -60,12 +62,13 @@ class ListPage extends React.Component {
           onRequestClose={() => { alert("Modal has been closed.") }}
 
         >
-          <CreateAssignment
+          <Login
             onComplete={() => {
-              this.props.allAssignmentsQuery.refetch()
               this.setState({ modalVisible: false })
             }} />
         </Modal>
+
+
         <ListView
           enableEmptySections={true}
           dataSource={this.state.dataSource}
@@ -77,16 +80,16 @@ class ListPage extends React.Component {
           )}
         />
         <TouchableHighlight
-          style={styles.createAssignmentButtonContainer}
-          onPress={this._createAssignment}
+          style={styles.loginButtonContainer}
+          onPress={this._login}
         >
-          <Text style={styles.createAssignmentButton}>Create Assignment</Text>
+          <Text style={styles.loginButton}>Login</Text>
         </TouchableHighlight>
       </View>
     )
   }
 
-  _createAssignment = () => {
+  _login = () => {
     // this.props.router.push('/create');
     this.setState({ modalVisible: true })
 
@@ -95,16 +98,17 @@ class ListPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'black',
     flex: 1,
     paddingTop: 22
   },
-  createAssignmentButtonContainer: {
+  loginButtonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  createAssignmentButton: {
-    backgroundColor: 'rgba(39,174,96,1)',
-    color: 'white',
+  loginButton: {
+    backgroundColor: 'goldenrod',
+    color: 'black',
     textAlign: 'center',
     fontSize: 22,
     height: 60,

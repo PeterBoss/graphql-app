@@ -8,23 +8,23 @@ import {
     Image,
     Text,
     StyleSheet,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native'
 
-const loginMutation = gql`
+const signinUserMutation = gql`
   mutation ($email: String!, $password: String!){
-    signinUser(email: $email, password: $password) {
-      id
-      token
+    signinUser(email: {email: $email, password: $password}) {
+        token
+      }
     }
-  }
 `
 
 class LoginPage extends React.Component {
 
     state = {
-        id: '',
-        token: '',
+        email: '',
+        password: '',
     }
 
     render() {
@@ -32,15 +32,18 @@ class LoginPage extends React.Component {
         return (
             <View style={styles.container}>
 
-                <TextInput
+                <TextInput style={styles.textInput}
                     placeholder='Email'
+                    placeholderTextColor= 'black'
                     onChangeText={(text) => this.setState({ email: text })}
                     value={this.state.email}
                 />
 
-                <TextInput
+                <TextInput style={styles.textInput}
                     placeholder='Password'
+                    placeholderTextColor= 'black'
                     onChangeText={(text) => this.setState({ password: text })}
+                    secureTextEntry={true}
                     value={this.state.password}
                 />
 
@@ -53,7 +56,7 @@ class LoginPage extends React.Component {
                     </TouchableHighlight>
                     <TouchableHighlight
                         style={styles.saveButton}
-                        onPress={() => this._login()}
+                        onPress={() => this.signinUser()}
                     >
                         <Text style={styles.saveButtonText}>Login</Text>
                     </TouchableHighlight>
@@ -63,11 +66,12 @@ class LoginPage extends React.Component {
         )
     }
 
-    _login = async () => {
+    signinUser = async () => {
+
         const { email, password } = this.state
-        await this.props.loginMutation({
-            variables: { email, password }
-        })
+        const response = await this.props.signinUserMutation({ variables: { email, password } })
+        AsyncStorage.setItem('graphcoolToken', response.data.signinUser.token)
+
         this.props.onComplete()
     }
 }
@@ -78,10 +82,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        paddingTop: 50,
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        backgroundColor: 'rgba(255,255,255,1)'
+        backgroundColor: 'black'
+    },
+    textInput: {
+        backgroundColor: 'goldenrod',
     },
     buttons: {
         flex: 1,
@@ -93,12 +99,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(39,174,96,1)',
+        backgroundColor: 'goldenrod',
         height: 45,
         borderRadius: 2,
     },
     saveButtonText: {
-        color: 'white',
+        color: 'black',
     },
     cancelButton: {
         flex: 1,
@@ -107,8 +113,8 @@ const styles = StyleSheet.create({
         height: 45,
     },
     cancelButtonText: {
-        color: 'rgba(0,0,0,.5)',
+        color: 'white',
     },
 })
 
-export default graphql(loginMutation, { name: 'loginMutation' })(LoginPage)
+export default graphql(signinUserMutation, { name: 'signinUserMutation' })(LoginPage)

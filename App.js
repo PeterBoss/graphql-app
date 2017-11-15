@@ -17,7 +17,7 @@ export default class App extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <Login onComplete = { () => alert("Success!")}/>
+        <ListPage />
       </ApolloProvider>
     )
   }
