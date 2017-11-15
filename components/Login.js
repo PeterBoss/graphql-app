@@ -34,14 +34,14 @@ class LoginPage extends React.Component {
 
                 <TextInput style={styles.textInput}
                     placeholder='Email'
-                    placeholderTextColor= 'black'
+                    placeholderTextColor='black'
                     onChangeText={(text) => this.setState({ email: text })}
                     value={this.state.email}
                 />
 
                 <TextInput style={styles.textInput}
                     placeholder='Password'
-                    placeholderTextColor= 'black'
+                    placeholderTextColor='black'
                     onChangeText={(text) => this.setState({ password: text })}
                     secureTextEntry={true}
                     value={this.state.password}
@@ -71,9 +71,9 @@ class LoginPage extends React.Component {
         const { email, password } = this.state
         const response = await this.props.signinUserMutation({ variables: { email, password } })
         AsyncStorage.setItem('graphcoolToken', response.data.signinUser.token)
-
         this.props.onComplete()
     }
+
 }
 
 

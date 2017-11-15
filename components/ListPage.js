@@ -9,7 +9,8 @@ import {
   Modal,
   StyleSheet,
   Text,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native'
 import CreateAssignment from './CreateAssignment'
 import Login from './Login'
@@ -24,7 +25,6 @@ const allAssignmentsQuery = gql`
     }
   }`
 
-
 class ListPage extends React.Component {
 
   constructor(props) {
@@ -35,7 +35,6 @@ class ListPage extends React.Component {
       modalVisible: false,
       user: undefined,
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,10 +48,16 @@ class ListPage extends React.Component {
 
   render() {
     if (this.props.allAssignmentsQuery.loading) {
-      return (<Text>Loading</Text>)
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
     }
 
     return (
+
+
       <View style={styles.container}>
 
         <Modal
@@ -69,6 +74,8 @@ class ListPage extends React.Component {
         </Modal>
 
 
+
+
         <ListView
           enableEmptySections={true}
           dataSource={this.state.dataSource}
@@ -79,6 +86,18 @@ class ListPage extends React.Component {
             />
           )}
         />
+        <TouchableHighlight
+          style={styles.loginButtonContainer}
+          onPress={this.alertToken}
+        >
+          <Text style={styles.loginButton}>check token</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.loginButtonContainer}
+          onPress={this.deleteToken}
+        >
+          <Text style={styles.loginButton}>delete token</Text>
+        </TouchableHighlight>
         <TouchableHighlight
           style={styles.loginButtonContainer}
           onPress={this._login}
@@ -94,7 +113,16 @@ class ListPage extends React.Component {
     this.setState({ modalVisible: true })
 
   }
+
+  alertToken = async () => {
+    await AsyncStorage.getItem('graphcoolToken').then((value) => { alert(value) })
+  }
+  deleteToken = async () => {
+    await AsyncStorage.removeItem('graphcoolToken').then(() => alert('succes')).then(() => alert('fail'))
+  }
+
 }
+
 
 const styles = StyleSheet.create({
   container: {
