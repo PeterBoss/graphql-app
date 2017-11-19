@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
-import ListPage from './components/ListPage'
+import RootComponent from './components/RootComponent'
 import Login from './components/Login'
 
 // __SIMPLE_API_ENDPOINT__ looks like: 'https://api.graph.cool/simple/v1/__SERVICE_ID__'
@@ -17,7 +17,7 @@ export default class App extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <ListPage />
+        <RootComponent />
       </ApolloProvider>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-export default class Post extends React.Component {
+export default class Assignment extends React.Component {
 
 
   render() {

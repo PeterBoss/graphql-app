@@ -16,6 +16,15 @@ const signinUserMutation = gql`
   mutation ($email: String!, $password: String!){
     signinUser(email: {email: $email, password: $password}) {
         token
+        user {
+            name
+            rating
+            email
+            solutions {
+              rating
+              url
+            }
+          }
       }
     }
 `
@@ -71,7 +80,7 @@ class LoginPage extends React.Component {
         const { email, password } = this.state
         const response = await this.props.signinUserMutation({ variables: { email, password } })
         AsyncStorage.setItem('graphcoolToken', response.data.signinUser.token)
-        this.props.onComplete()
+        this.props.onComplete(response.data.signinUser.user)
     }
 
 }

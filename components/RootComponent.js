@@ -1,20 +1,22 @@
 import React from 'react'
-import Assignment from './Assignment'
+//import Assignment from './Assignment'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import {
   View,
   TouchableHighlight,
-  ListView,
+ // ListView,
   Modal,
   StyleSheet,
   Text,
   AsyncStorage,
   ActivityIndicator
 } from 'react-native'
-import CreateAssignment from './CreateAssignment'
+//import CreateAssignment from './CreateAssignment'
 import Login from './Login'
+import User from './User'
 
+/*
 const allAssignmentsQuery = gql`
   query {
     allAssignments(orderBy: createdAt_DESC) {
@@ -24,19 +26,19 @@ const allAssignmentsQuery = gql`
       solutions
     }
   }`
-
-class ListPage extends React.Component {
+*/
+export default class RootComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+    //const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
-      dataSource: ds.cloneWithRows([]),
+      //dataSource: ds.cloneWithRows([]),
       modalVisible: false,
       user: undefined,
     }
   }
-
+  /*
   componentWillReceiveProps(nextProps) {
     if (!nextProps.allAssignmentsQuery.loading && !nextProps.allAssignmentsQuery.error) {
       const { dataSource } = this.state
@@ -45,8 +47,10 @@ class ListPage extends React.Component {
       })
     }
   }
+  */
 
   render() {
+    /*
     if (this.props.allAssignmentsQuery.loading) {
       return (
         <View style={{ flex: 1, paddingTop: 20 }}>
@@ -54,9 +58,24 @@ class ListPage extends React.Component {
         </View>
       );
     }
+    */
+
+    if (this.state.user !== undefined) { //store user with AsyncStorage instead?
+      return (
+        <View style={styles.container}>
+          <User user={this.state.user} />
+          <TouchableHighlight
+            style={styles.loginButtonContainer}
+            onPress={this._logout}
+          >
+            <Text style={styles.loginButton}>Logout</Text>
+          </TouchableHighlight>
+        </View>
+
+      )
+    }
 
     return (
-
 
       <View style={styles.container}>
 
@@ -68,14 +87,14 @@ class ListPage extends React.Component {
 
         >
           <Login
-            onComplete={() => {
-              this.setState({ modalVisible: false })
+            onComplete={(loggedInUser) => {
+              this.setState({ modalVisible: false, user: loggedInUser })
             }} />
         </Modal>
 
 
 
-
+        {/*
         <ListView
           enableEmptySections={true}
           dataSource={this.state.dataSource}
@@ -86,24 +105,15 @@ class ListPage extends React.Component {
             />
           )}
         />
-        <TouchableHighlight
-          style={styles.loginButtonContainer}
-          onPress={this.alertToken}
-        >
-          <Text style={styles.loginButton}>check token</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.loginButtonContainer}
-          onPress={this.deleteToken}
-        >
-          <Text style={styles.loginButton}>delete token</Text>
-        </TouchableHighlight>
+        */}
+
         <TouchableHighlight
           style={styles.loginButtonContainer}
           onPress={this._login}
         >
           <Text style={styles.loginButton}>Login</Text>
         </TouchableHighlight>
+
       </View>
     )
   }
@@ -114,11 +124,9 @@ class ListPage extends React.Component {
 
   }
 
-  alertToken = async () => {
-    await AsyncStorage.getItem('graphcoolToken').then((value) => { alert(value) })
-  }
-  deleteToken = async () => {
-    await AsyncStorage.removeItem('graphcoolToken').then(() => alert('succes')).then(() => alert('fail'))
+
+  _logout = async () => {
+    await AsyncStorage.removeItem('graphcoolToken').then(this.setState({ user: undefined }))
   }
 
 }
@@ -145,5 +153,5 @@ const styles = StyleSheet.create({
   }
 })
 
-export default graphql(allAssignmentsQuery, { name: 'allAssignmentsQuery' })(ListPage)
+//export default graphql(allAssignmentsQuery, { name: 'allAssignmentsQuery' })(ListPage)
 
