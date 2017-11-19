@@ -15,29 +15,29 @@ import {
 const signinUserMutation = gql`
   mutation ($email: String!, $password: String!){
     signinUser(email: {email: $email, password: $password}) {
-        token
-        user {
-            name
+      token
+      user {
+        name
+        rating
+        email
+        solutions {
+          id
+          rating
+          url
+          createdAt
+          updatedAt
+          assignment {
+            id
+            description
             rating
-            email
-            solutions {
-                id
-                rating
-                url
-                createdAt
-                updatedAt
-                assignment {
-                    id
-                    description
-                    rating
-                    url
-                    createdAt
-                    updatedAt
-                }
-            }
+            url
+            createdAt
+            updatedAt
           }
+        }
       }
     }
+  }
 `
 
 class LoginPage extends React.Component {
