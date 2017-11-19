@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import {
   View,
   TouchableHighlight,
- // ListView,
+  // ListView,
   Modal,
   StyleSheet,
   Text,
@@ -83,7 +83,7 @@ export default class RootComponent extends React.Component {
           animationType='slide'
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => { alert("Modal has been closed.") }}
+          onRequestClose={() => { this.setState({ modalVisible: false }) }}
 
         >
           <Login
@@ -134,9 +134,10 @@ export default class RootComponent extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
     backgroundColor: 'black',
     flex: 1,
-    paddingTop: 22
+    paddingTop: 22,
   },
   loginButtonContainer: {
     justifyContent: 'center',
@@ -150,7 +151,8 @@ const styles = StyleSheet.create({
     height: 60,
     width: 480,
     paddingTop: 18,
-  }
+  },
+
 })
 
 //export default graphql(allAssignmentsQuery, { name: 'allAssignmentsQuery' })(ListPage)

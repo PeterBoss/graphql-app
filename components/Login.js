@@ -21,8 +21,19 @@ const signinUserMutation = gql`
             rating
             email
             solutions {
-              rating
-              url
+                id
+                rating
+                url
+                createdAt
+                updatedAt
+                assignment {
+                    id
+                    description
+                    rating
+                    url
+                    createdAt
+                    updatedAt
+                }
             }
           }
       }
@@ -40,37 +51,37 @@ class LoginPage extends React.Component {
 
         return (
             <View style={styles.container}>
+                <View>
+                    <TextInput style={styles.textInput}
+                        placeholder='Email'
+                        placeholderTextColor='black'
+                        onChangeText={(text) => this.setState({ email: text })}
+                        value={this.state.email}
+                    />
 
-                <TextInput style={styles.textInput}
-                    placeholder='Email'
-                    placeholderTextColor='black'
-                    onChangeText={(text) => this.setState({ email: text })}
-                    value={this.state.email}
-                />
+                    <TextInput style={styles.textInput}
+                        placeholder='Password'
+                        placeholderTextColor='black'
+                        onChangeText={(text) => this.setState({ password: text })}
+                        secureTextEntry={true}
+                        value={this.state.password}
+                    />
 
-                <TextInput style={styles.textInput}
-                    placeholder='Password'
-                    placeholderTextColor='black'
-                    onChangeText={(text) => this.setState({ password: text })}
-                    secureTextEntry={true}
-                    value={this.state.password}
-                />
-
-                <View style={styles.buttons}>
-                    <TouchableHighlight
-                        style={styles.cancelButton}
-                        onPress={() => this.props.onComplete()}
-                    >
-                        <Text style={styles.cancelButtonText}>Cancel</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={styles.saveButton}
-                        onPress={() => this.signinUser()}
-                    >
-                        <Text style={styles.saveButtonText}>Login</Text>
-                    </TouchableHighlight>
+                    <View style={styles.buttons}>
+                        <TouchableHighlight
+                            style={styles.cancelButton}
+                            onPress={() => this.props.onComplete()}
+                        >
+                            <Text style={styles.cancelButtonText}>Cancel</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style={styles.saveButton}
+                            onPress={() => this.signinUser()}
+                        >
+                            <Text style={styles.saveButtonText}>Login</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
-
             </View>
         )
     }
@@ -90,10 +101,8 @@ class LoginPage extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        backgroundColor: 'black'
+        justifyContent: 'center',
+        backgroundColor: 'black',
     },
     textInput: {
         backgroundColor: 'goldenrod',
