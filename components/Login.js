@@ -46,7 +46,7 @@ class LoginPage extends React.Component {
         email: '',
         password: '',
     }
-
+    
     render() {
 
         return (
@@ -92,6 +92,7 @@ class LoginPage extends React.Component {
         const response = await this.props.signinUserMutation({ variables: { email, password } })
         AsyncStorage.setItem('graphcoolToken', response.data.signinUser.token)
         this.props.onComplete(response.data.signinUser.user)
+        
     }
 
 }

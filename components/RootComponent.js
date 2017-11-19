@@ -62,6 +62,7 @@ export default class RootComponent extends React.Component {
 
     if (this.state.user !== undefined) { //store user with AsyncStorage instead?
       return (
+        /*}
         <View style={styles.container}>
           <User user={this.state.user} />
           <TouchableHighlight
@@ -71,7 +72,8 @@ export default class RootComponent extends React.Component {
             <Text style={styles.loginButton}>Logout</Text>
           </TouchableHighlight>
         </View>
-
+        */
+        <User user={this.state.user} />
       )
     }
 

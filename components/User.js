@@ -1,12 +1,21 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, FlatList, Modal, TouchableHighlight } from 'react-native'
+import PersonalizedAssignments from './PersonalizedAssignments'
+import UserSolutions from './UserSolutions'
 
 export default class User extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            assignmentModalVisible: false,
+            solutionModalVisible: false,
+        }
+    }
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <Text style={styles.title}>
                     Name: {this.props.user.name}
                 </Text>
@@ -16,17 +25,12 @@ export default class User extends React.Component {
                 <Text style={styles.title}>
                     Rating: {this.props.user.rating}
                 </Text>
-                <View>
-                    <Text style={styles.title}>Solutions: </Text>
-                    <FlatList data={
-                        this.props.user.solutions.map((item) => {
-                            return { key: item.id, description: item.assignment.description, rating: item.rating }
-                        })
-                    }
-                        renderItem={({ item }) => <Text style={styles.title}>{item.description} ({item.rating} points)</Text>}
-                    />
-                </View>
-            </View>
+
+                <PersonalizedAssignments rating={this.props.user.rating} />
+
+                <UserSolutions solutions={this.props.user.solutions} />
+
+            </ScrollView>
         )
     }
 }
@@ -42,5 +46,18 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '300',
         fontSize: 16,
+    },
+    buttonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    okButton: {
+        backgroundColor: 'goldenrod',
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 22,
+        height: 60,
+        width: 480,
+        paddingTop: 18,
     },
 })
