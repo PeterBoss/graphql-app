@@ -15,6 +15,8 @@ import {
 //import CreateAssignment from './CreateAssignment'
 import Login from './Login'
 import User from './User'
+import UserOverView from './UserOverview'
+import AssignmentSolvers from './AssignmentSolvers'
 
 /*
 const allAssignmentsQuery = gql`
@@ -108,6 +110,7 @@ export default class RootComponent extends React.Component {
           )}
         />
         */}
+
 
         <TouchableHighlight
           style={styles.loginButtonContainer}

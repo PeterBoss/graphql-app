@@ -17,6 +17,7 @@ const signinUserMutation = gql`
     signinUser(email: {email: $email, password: $password}) {
       token
       user {
+        role
         name
         rating
         email
