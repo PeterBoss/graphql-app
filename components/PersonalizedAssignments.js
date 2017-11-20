@@ -4,13 +4,13 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const PersonalizedAssignmentsQuery = gql`
-query ($rating: Float!){
-  allAssignments(filter: {rating_gte: $rating}) {
-    id
-    description
-    url
-    rating
-  }
+query ($minRating: Float!, $maxRating: Float!){
+    allAssignments(filter: {AND: [{rating_gte: $minRating}, {rating_lte: $maxRating}]}) {
+        id
+        description
+        url
+        rating
+    }
 }
 `
 class PersonalizedAssignments extends React.Component {
@@ -61,7 +61,13 @@ class PersonalizedAssignments extends React.Component {
 
 export default graphql(PersonalizedAssignmentsQuery, {
     name: 'PersonalizedAssignmentsQuery',
-    options: ({ rating }) => ({ variables: { rating } }),
+    // options: ({ rating }) => ({ variables: { rating } }),
+    options: (props) => ({
+        variables: {
+            minRating: props.rating - 2.5,
+            maxRating: props.rating + 2.5,
+        }
+    })
 })(PersonalizedAssignments)
 
 const styles = StyleSheet.create({
