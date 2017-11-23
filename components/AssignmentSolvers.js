@@ -4,13 +4,13 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const solutionQuery = gql`
-query ($id: String!){
+query ($id: ID!){
     allSolutions(filter: {assignment: {id: $id}}) {
         user {
           name
         }
-      }
-  }  
+    }
+}  
 `
 class AssignmentSolvers extends React.Component {
 
@@ -23,8 +23,9 @@ class AssignmentSolvers extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (!nextProps.solutionQuery.loading && !nextProps.solutionQuery.error) {
-
+            console.log("TEST")
             this.setState({
+                
                 solutions: nextProps.solutionQuery.allSolutions
             })
         }

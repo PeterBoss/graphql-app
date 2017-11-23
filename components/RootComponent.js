@@ -63,19 +63,30 @@ export default class RootComponent extends React.Component {
     */
 
     if (this.state.user !== undefined) { //store user with AsyncStorage instead?
-      return (
-        /*}
-        <View style={styles.container}>
+      if (this.state.user.role === 'USER') {
+        return (
+          /*}
+          <View style={styles.container}>
+            <User user={this.state.user} />
+            <TouchableHighlight
+              style={styles.loginButtonContainer}
+              onPress={this._logout}
+            >
+              <Text style={styles.loginButton}>Logout</Text>
+            </TouchableHighlight>
+          </View>
+          */
           <User user={this.state.user} />
-          <TouchableHighlight
-            style={styles.loginButtonContainer}
-            onPress={this._logout}
-          >
-            <Text style={styles.loginButton}>Logout</Text>
-          </TouchableHighlight>
-        </View>
-        */
-        <User user={this.state.user} />
+        )
+      }
+      if (this.state.user.role === 'ADMIN') {
+        return (
+          //<AssignmentSolvers id= />
+          <UserOverView />
+        )
+      }
+      return (
+        <Text>This is the page for users without a role, you should never see this</Text>
       )
     }
 
