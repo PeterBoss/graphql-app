@@ -17,6 +17,8 @@ import Login from './Login'
 import User from './User'
 import UserOverView from './UserOverview'
 import AssignmentSolvers from './AssignmentSolvers'
+import Admin from './Admin'
+
 
 /*
 const allAssignmentsQuery = gql`
@@ -82,7 +84,7 @@ export default class RootComponent extends React.Component {
       if (this.state.user.role === 'ADMIN') {
         return (
           //<AssignmentSolvers id= />
-          <UserOverView />
+          <Admin />
         )
       }
       return (
@@ -91,7 +93,7 @@ export default class RootComponent extends React.Component {
     }
 
     return (
-
+// loggedInuser az koja amade ast, oncomælete ce mikonad ham dar inja ham dar ghesmate login
       <View style={styles.container}>
 
         <Modal
@@ -101,6 +103,7 @@ export default class RootComponent extends React.Component {
           onRequestClose={() => { this.setState({ modalVisible: false }) }}
 
         >
+        
           <Login
             onComplete={(loggedInUser) => {
               this.setState({ modalVisible: false, user: loggedInUser })

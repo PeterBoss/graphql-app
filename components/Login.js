@@ -11,7 +11,7 @@ import {
     TouchableHighlight,
     AsyncStorage
 } from 'react-native'
-
+//////???????? chera signinuser mail injorrie va mutation che mikone 
 const signinUserMutation = gql`
   mutation ($email: String!, $password: String!){
     signinUser(email: {email: $email, password: $password}) {
@@ -26,7 +26,7 @@ const signinUserMutation = gql`
           rating
           url
           createdAt
-          updatedAt
+          updatedAt 
           assignment {
             id
             description
@@ -86,9 +86,14 @@ class LoginPage extends React.Component {
             </View>
         )
     }
-
+// hvor bruger man props?
+// gaphcoolToken az koja aamade
     signinUser = async () => {
-
+// email og password chera injoorian
+// token tozih bedi
+// await
+// chetorr props inja nadari ama props.signinUserMutation
+// response.data???
         const { email, password } = this.state
         const response = await this.props.signinUserMutation({ variables: { email, password } })
         AsyncStorage.setItem('graphcoolToken', response.data.signinUser.token)
@@ -136,5 +141,5 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 })
-
+// export default ->graphql 
 export default graphql(signinUserMutation, { name: 'signinUserMutation' })(LoginPage)

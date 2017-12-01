@@ -3,37 +3,37 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-nativ
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const allUsersQuery = gql`
+const allAssignmentsQuery = gql`
 query {
-    allUsers(filter: {role: USER}, orderBy: rating_DESC) {
+    allAssignments {
         id
-        name
-        email
         rating
+        url
+        description
     }
 }
 `
-class UserOverview extends React.Component {
+class AllAssignments extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            users: undefined
+            assignments: undefined
         }
     }
 // chera nesxt props inja ezafe shode
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.allUsersQuery.loading && !nextProps.allUsersQuery.error) {
+        if (!nextProps.allAssignmentsQuery.loading && !nextProps.allAssignmentsQuery.error) {
 
             this.setState({
-                users: nextProps.allUsersQuery.allUsers
+                assignments: nextProps.allAssignmentsQuery.allAssignments
             })
         }
     }
 
     render() {
 
-        if (this.props.allUsersQuery.loading) {
+        if (this.props.allAssignmentsQuery.loading) {
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <ActivityIndicator />
@@ -43,16 +43,16 @@ class UserOverview extends React.Component {
 
         return (
             //flatlist data chi mige inja ba renderitem
-            <View style={styles.container}>
+            <View >
                 <View>
-                    <Text style={styles.title}>All Users:</Text>
+                    <Text >All assignments:</Text>
                     
                     <FlatList data={
-                        this.state.users.map((item) => {
-                            return { key: item.id, name: item.name, email: item.email, rating: item.rating }
+                        this.state.assignments.map((item) => {
+                            return { key: item.id, description : item.description, url: item.url, rating: item.rating }
                         })
                     }
-                        renderItem={({ item }) => <Text style={styles.title}>{item.name} (rating :{item.rating})</Text>}
+                        renderItem={({ item }) => <Text >{item.description} (rating :{item.rating})</Text>}
                     />
                 </View>
             </View>
@@ -61,7 +61,7 @@ class UserOverview extends React.Component {
 
 }
 
-export default graphql(allUsersQuery, { name: 'allUsersQuery', })(UserOverview)
+export default graphql(allAssignmentsQuery, { name: 'allAssignmentsQuery', })(AllAssignments)
 
 const styles = StyleSheet.create({
     container: {

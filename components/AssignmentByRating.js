@@ -2,18 +2,19 @@ import React from 'react'
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import PropTypes from 'prop-types';
 
-const PersonalizedAssignmentsQuery = gql`
-query ($minRating: Float!, $maxRating: Float!){
-    allAssignments(filter: {AND: [{rating_gte: $minRating}, {rating_lte: $maxRating}]}) {
+const Query = gql`
+query ($rating: Float!){
+    allAssignments(filter: {rating : $rating}) {
         id
         description
-        url
         rating
-    }
+      }
+   
 }
 `
-class PersonalizedAssignments extends React.Component {
+class AssignmentByRating extends React.Component {
 
     constructor(props) {
         super(props)
@@ -21,19 +22,20 @@ class PersonalizedAssignments extends React.Component {
             assignments: undefined
         }
     }
-// manzoor az in ghesmat chi ast
+
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.PersonalizedAssignmentsQuery.loading && !nextProps.PersonalizedAssignmentsQuery.error) {
+        if (!nextProps.Query.loading && !nextProps.Query.error) {
 
             this.setState({
-                assignments: nextProps.PersonalizedAssignmentsQuery.allAssignments
+                
+                assignments: nextProps.Query.allAssignments
             })
         }
     }
 
-    render() {
 
-        if (this.props.PersonalizedAssignmentsQuery.loading) {
+    render() {
+        if (this.props.Query.loading) {
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <ActivityIndicator />
@@ -41,34 +43,28 @@ class PersonalizedAssignments extends React.Component {
             );
         }
         return (
-            <View style={styles.container}>
+            <View>
                 <View>
-                    <Text style={styles.title}>Suggested Assignments:</Text>
+                    <Text>Assignments:</Text>
                     <FlatList data={
                         this.state.assignments.map((item) => {
                             return { key: item.id, description: item.description, rating: item.rating }
                         })
-                    }// render item az koja
-                        renderItem={({ item }) => <Text style={styles.title}>{item.description} (rating :{item.rating})</Text>}
+                    }
+                        renderItem={({ item }) => <Text>{item.description} (rating :{item.rating})</Text>}
                     />
                 </View>
+                
             </View>
         )
-
     }
 
 }
-// -2,5 baraye chi ast
-export default graphql(PersonalizedAssignmentsQuery, {
-    name: 'PersonalizedAssignmentsQuery',
-    // options: ({ rating }) => ({ variables: { rating } }),
-    options: (props) => ({
-        variables: {
-            minRating: props.rating - 2.5,
-            maxRating: props.rating + 2.5,
-        }
-    })
-})(PersonalizedAssignments)
+
+export default graphql(Query, {
+    name: 'Query',
+    
+})(AssignmentByRating)
 
 const styles = StyleSheet.create({
     container: {
