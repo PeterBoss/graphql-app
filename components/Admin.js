@@ -2,6 +2,8 @@ import React from 'react'
 import { View, ScrollView, Text, StyleSheet, FlatList, Modal, TouchableHighlight, TextInput } from 'react-native'
 import AssignmentByRating from './AssignmentByRating'
 import AllAssignment from './AllAssignments'
+import NewAssignment from './NewAssignment'
+
 export default class Admin extends React.Component {
 
     constructor(props) {
@@ -22,6 +24,8 @@ export default class Admin extends React.Component {
                     />
 
                     <AllAssignment />
+
+                    <NewAssignment onComplete = {() => alert("You tried to create a new assignment, maybe it even worked.")}/>
                 </View>
             )
         }

@@ -2,6 +2,7 @@ import React from 'react'
 import { View, ScrollView, Text, StyleSheet, FlatList, Modal, TouchableHighlight } from 'react-native'
 import PersonalizedAssignments from './PersonalizedAssignments'
 import UserSolutions from './UserSolutions'
+import NewSolution from './NewSolution'
 
 export default class User extends React.Component {
 
@@ -29,7 +30,9 @@ export default class User extends React.Component {
                 <PersonalizedAssignments rating={this.props.user.rating} />
 
                 <UserSolutions solutions={this.props.user.solutions} />
-
+            {/*
+                <NewSolution userId={this.props.user.id} assignmentId="cjawao624156k0160skq9aqvw"/>
+            */}
             </ScrollView>
         )
     }
