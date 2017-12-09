@@ -18,6 +18,8 @@ import User from './User'
 import UserOverView from './UserOverview'
 import AssignmentSolvers from './AssignmentSolvers'
 import Admin from './Admin'
+import NewSolution from './NewSolution'
+import PersonalizedAssignments from './PersonalizedAssignments'
 
 
 /*
@@ -40,6 +42,7 @@ export default class RootComponent extends React.Component {
       //dataSource: ds.cloneWithRows([]),
       modalVisible: false,
       user: undefined,
+      assignmentId :undefined
     }
   }
   /*
@@ -78,8 +81,13 @@ export default class RootComponent extends React.Component {
             </TouchableHighlight>
           </View>
           */
-          <User user={this.state.user} />
+          <User user={this.state.user} /> 
+          
         )
+        if (this.state.assignmentId){
+          
+          <NewSolution assignmentId ={this.state.assignmentId}/>
+                    }
       }
       if (this.state.user.role === 'ADMIN') {
         return (

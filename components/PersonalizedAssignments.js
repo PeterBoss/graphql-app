@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableHighlight
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import NewSolution from './NewSolution'
+import RootComponent from './RootComponent'
 
 const PersonalizedAssignmentsQuery = gql`
 query ($minRating: Float!, $maxRating: Float!){
@@ -19,7 +20,8 @@ class PersonalizedAssignments extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            assignments: undefined
+            assignments: undefined,
+            assignmentId: undefined
         }
     }
     // manzoor az in ghesmat chi ast
@@ -58,7 +60,7 @@ class PersonalizedAssignments extends React.Component {
 
                             <TouchableHighlight style={styles.saveButton} 
                             onPress={
-                                <NewSolution assignmentId={this.props.assignmentId} />
+                               this._sendAssignmentID
                             }
                             >
                             <Text style={styles.saveButtonText}>make new soulution</Text>
@@ -77,11 +79,15 @@ class PersonalizedAssignments extends React.Component {
     }
 
 }
-/* const RouteStack = StackNavigator({
+_sendAssignmentID = () => {
     
-    NewSolution: { screen: NewSolution },
-  }); */
+   /// this.setState({ assignmentId: assignmentId })
+    return (
+        
+        <RootComponent assignmentId= {this.props.assignmentId} />
+      )
 
+  }
 // -2,5 baraye chi ast
 export default graphql(PersonalizedAssignmentsQuery, {
     name: 'PersonalizedAssignmentsQuery',
