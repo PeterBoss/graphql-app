@@ -86,7 +86,7 @@ export default class RootComponent extends React.Component {
         )
         if (this.state.assignmentId){
           return(
-          <NewSolution assignmentId ={this.state.assignmentId}/>
+          <NewSolution assignmentId ={this.props.assignmentId}/>
                     )
       }
       if (this.state.user.role === 'ADMIN') {
