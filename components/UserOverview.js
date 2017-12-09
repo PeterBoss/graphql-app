@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-nativ
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
+
 const allUsersQuery = gql`
 query {
     allUsers(filter: {role: USER}, orderBy: rating_DESC) {

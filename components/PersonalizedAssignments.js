@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableHighlight } from 'react-native'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import NewSolution from './NewSolution'
 
 const PersonalizedAssignmentsQuery = gql`
 query ($minRating: Float!, $maxRating: Float!){
@@ -21,7 +22,7 @@ class PersonalizedAssignments extends React.Component {
             assignments: undefined
         }
     }
-// manzoor az in ghesmat chi ast
+    // manzoor az in ghesmat chi ast
     componentWillReceiveProps(nextProps) {
         if (!nextProps.PersonalizedAssignmentsQuery.loading && !nextProps.PersonalizedAssignmentsQuery.error) {
 
@@ -47,10 +48,28 @@ class PersonalizedAssignments extends React.Component {
                     <FlatList data={
                         this.state.assignments.map((item) => {
                             return { key: item.id, description: item.description, rating: item.rating }
+
                         })
-                    }// render item az koja
-                        renderItem={({ item }) => <Text style={styles.title}>{item.description} (rating :{item.rating})</Text>}
+
+                    }
+
+                        renderItem={({ item }) => <Text style={styles.title}>
+                            {item.description} (rating :{item.rating})        
+
+                            <TouchableHighlight style={styles.saveButton} 
+                            onPress={
+                                <NewSolution assignmentId={this.props.assignmentId} />
+                            }
+                            >
+                            <Text style={styles.saveButtonText}>make new soulution</Text>
+                            
+                            </TouchableHighlight>
+
+                       </Text>}
+
+
                     />
+
                 </View>
             </View>
         )
@@ -58,6 +77,11 @@ class PersonalizedAssignments extends React.Component {
     }
 
 }
+/* const RouteStack = StackNavigator({
+    
+    NewSolution: { screen: NewSolution },
+  }); */
+
 // -2,5 baraye chi ast
 export default graphql(PersonalizedAssignmentsQuery, {
     name: 'PersonalizedAssignmentsQuery',
@@ -81,5 +105,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '300',
         fontSize: 16,
+    },
+    saveButton: {
+
+        backgroundColor: 'goldenrod',
+        height: 35,
+        width: 50,
+        borderRadius: 1,
+        fontWeight: '300',
+    },
+    saveButtonText: {
+        color: 'black',
     },
 })

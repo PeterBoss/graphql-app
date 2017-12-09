@@ -30,9 +30,9 @@ export default class User extends React.Component {
                 <PersonalizedAssignments rating={this.props.user.rating} />
 
                 <UserSolutions solutions={this.props.user.solutions} />
-            {/*
-                <NewSolution userId={this.props.user.id} assignmentId="cjawao624156k0160skq9aqvw"/>
-            */}
+            {
+                <NewSolution userId={this.props.user.id} />
+            }
             </ScrollView>
         )
     }

@@ -8,7 +8,8 @@ import {
     Image,
     Text,
     StyleSheet,
-    TouchableHighlight
+    TouchableHighlight, 
+    TouchableOpacity
 } from 'react-native'
 
 const createSolutionMutation = gql`
@@ -18,6 +19,10 @@ const createSolutionMutation = gql`
     }
   }
 `
+/* const Touchable = (props) => (
+    <TouchableOpacity style={styles.button} onPress={props.onPress}>
+      <Text style={styles.buttonText}>{props.title}</Text>
+    </TouchableOpacity>) */
 
 class CreatePage extends React.Component {
 
@@ -38,13 +43,13 @@ class CreatePage extends React.Component {
     }
 
     render() {
-
+       
         return (
             <View style={styles.container}>
 
                 <TextInput
                     style={styles.textInput}
-                    placeholderTextColor='black'
+                    placeholderTextColor='white'
                     placeholder='Type an url...'
                     onChangeText={(text) => this.setState({ url: text })}
                     value={this.state.url}
