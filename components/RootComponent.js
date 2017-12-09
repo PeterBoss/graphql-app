@@ -83,7 +83,7 @@ export default class RootComponent extends React.Component {
           */
           <User user={this.state.user} /> 
           
-        )
+        )}
         if (this.state.assignmentId){
           return(
           <NewSolution assignmentId ={this.props.assignmentId}/>
