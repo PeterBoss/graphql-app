@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableHighlight, Modal } from 'react-native'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import NewSolution from './NewSolution'
@@ -21,7 +21,9 @@ class PersonalizedAssignments extends React.Component {
         super(props)
         this.state = {
             assignments: undefined,
-            assignmentId: undefined
+            assignmentId: undefined,
+            modalVisible: false
+
         }
     }
     // manzoor az in ghesmat chi ast
@@ -56,38 +58,48 @@ class PersonalizedAssignments extends React.Component {
                     }
 
                         renderItem={({ item }) => <Text style={styles.title}>
-                            {item.description} (rating :{item.rating})        
+                            {item.description} (rating :{item.rating})
 
-                            <TouchableHighlight style={styles.saveButton} 
-                            onPress={
-                               this._sendAssignmentID
-                            }
+                            <TouchableHighlight style={styles.saveButton}
+                                onPress={
+                                    () => this.setState({ modalVisible: true })
+                                }
                             >
-                            <Text style={styles.saveButtonText}>make new soulution</Text>
-                            
+                                <Text style={styles.saveButtonText}>make new soulution</Text>
+
                             </TouchableHighlight>
 
-                       </Text>}
+                        </Text>}
 
 
                     />
 
                 </View>
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => { this.setState({ modalVisible: false }) }}
+
+                >
+                    <View style={styles.container}>
+                        <Text style={styles.title}> TEST </Text>
+                    </View>
+
+                </Modal>
+
             </View>
         )
 
     }
 
 }
-_sendAssignmentID = () => {
-    
-   /// this.setState({ assignmentId: assignmentId })
-    return (
-        
-        <RootComponent assignmentId= {this.props.assignmentId} />
-      )
 
-  }
+/* _sendAssignmentID = async (assId) => {
+    await this.setState({ assingmentId: assId })
+} */
+
+
 // -2,5 baraye chi ast
 export default graphql(PersonalizedAssignmentsQuery, {
     name: 'PersonalizedAssignmentsQuery',

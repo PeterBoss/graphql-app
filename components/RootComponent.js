@@ -69,6 +69,11 @@ export default class RootComponent extends React.Component {
 
     if (this.state.user !== undefined) { //store user with AsyncStorage instead?
       if (this.state.user.role === 'USER') {
+        if (this.state.assignmentId){
+          return(
+          <NewSolution assignmentId ={this.props.assignmentId}/>
+                    )
+      }
         return (
           /*}
           <View style={styles.container}>
@@ -81,14 +86,11 @@ export default class RootComponent extends React.Component {
             </TouchableHighlight>
           </View>
           */
+         
           <User user={this.state.user} /> 
           
         )}
-        if (this.state.assignmentId){
-          return(
-          <NewSolution assignmentId ={this.props.assignmentId}/>
-                    )
-      }
+        
       if (this.state.user.role === 'ADMIN') {
         return (
           //<AssignmentSolvers id= />
@@ -154,6 +156,9 @@ export default class RootComponent extends React.Component {
 
   _logout = async () => {
     await AsyncStorage.removeItem('graphcoolToken').then(this.setState({ user: undefined }))
+  }
+  getAssignmentId  = async (id) =>{
+    await this.setState({assignmentId :id})
   }
 
 }
