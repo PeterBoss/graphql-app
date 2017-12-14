@@ -33,7 +33,7 @@ class AllAssignments extends React.Component {
 
     render() {
 
-        if (this.props.allAssignmentsQuery.loading) {
+        if (this.props.allAssignmentsQuery.loading || this.state.assignments === undefined) {
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <ActivityIndicator />

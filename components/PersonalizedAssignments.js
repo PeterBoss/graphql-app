@@ -38,7 +38,7 @@ class PersonalizedAssignments extends React.Component {
 
     render() {
 
-        if (this.props.PersonalizedAssignmentsQuery.loading) {
+        if (this.props.PersonalizedAssignmentsQuery.loading || this.state.assignments === undefined) {
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <ActivityIndicator />
@@ -57,19 +57,20 @@ class PersonalizedAssignments extends React.Component {
 
                     }
 
-                        renderItem={({ item }) => <Text style={styles.title}>
-                            {item.description} (rating :{item.rating})
+                        renderItem={({ item }) =>
 
                             <TouchableHighlight style={styles.saveButton}
                                 onPress={
-                                    () => this.setState({ modalVisible: true })
+                                    () => {
+                                        this.setState({ assignmentId: item.key, modalVisible: true })
+                                    }
                                 }
                             >
-                                <Text style={styles.saveButtonText}>make new soulution</Text>
+                                <Text style={styles.saveButtonText}>{item.description} ({item.rating}) -></Text>
 
                             </TouchableHighlight>
 
-                        </Text>}
+                        }
 
 
                     />
@@ -82,9 +83,10 @@ class PersonalizedAssignments extends React.Component {
                     onRequestClose={() => { this.setState({ modalVisible: false }) }}
 
                 >
-                    <View style={styles.container}>
-                        <Text style={styles.title}> TEST </Text>
-                    </View>
+                    <NewSolution userId={this.props.user.id} assignmentId={this.state.assignmentId}
+                        onComplete={() => {
+                            this.setState({ modalVisible: false })
+                        }} />
 
                 </Modal>
 
@@ -106,8 +108,8 @@ export default graphql(PersonalizedAssignmentsQuery, {
     // options: ({ rating }) => ({ variables: { rating } }),
     options: (props) => ({
         variables: {
-            minRating: props.rating - 2.5,
-            maxRating: props.rating + 2.5,
+            minRating: props.user.rating - 2.5,
+            maxRating: props.user.rating + 2.5,
         }
     })
 })(PersonalizedAssignments)
@@ -127,10 +129,9 @@ const styles = StyleSheet.create({
     saveButton: {
 
         backgroundColor: 'goldenrod',
-        height: 35,
-        width: 50,
         borderRadius: 1,
-        fontWeight: '300',
+        padding: 5
+
     },
     saveButtonText: {
         color: 'black',

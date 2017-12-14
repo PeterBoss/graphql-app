@@ -22,17 +22,7 @@ import NewSolution from './NewSolution'
 import PersonalizedAssignments from './PersonalizedAssignments'
 
 
-/*
-const allAssignmentsQuery = gql`
-  query {
-    allAssignments(orderBy: createdAt_DESC) {
-      id
-      description
-      url
-      solutions
-    }
-  }`
-*/
+
 export default class RootComponent extends React.Component {
 
   constructor(props) {
@@ -42,42 +32,22 @@ export default class RootComponent extends React.Component {
       //dataSource: ds.cloneWithRows([]),
       modalVisible: false,
       user: undefined,
-      assignmentId :undefined
+
     }
   }
-  /*
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.allAssignmentsQuery.loading && !nextProps.allAssignmentsQuery.error) {
-      const { dataSource } = this.state
-      this.setState({
-        dataSource: dataSource.cloneWithRows(nextProps.allAssignmentsQuery.allAssignments),
-      })
-    }
-  }
-  */
+
+
 
   render() {
-    /*
-    if (this.props.allAssignmentsQuery.loading) {
-      return (
-        <View style={{ flex: 1, paddingTop: 20 }}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
-    */
 
     if (this.state.user !== undefined) { //store user with AsyncStorage instead?
       if (this.state.user.role === 'USER') {
-        if (this.state.assignmentId){
-          return(
-          <NewSolution assignmentId ={this.props.assignmentId}/>
-                    )
-      }
+
         return (
-          /*}
           <View style={styles.container}>
+
             <User user={this.state.user} />
+
             <TouchableHighlight
               style={styles.loginButtonContainer}
               onPress={this._logout}
@@ -85,16 +55,20 @@ export default class RootComponent extends React.Component {
               <Text style={styles.loginButton}>Logout</Text>
             </TouchableHighlight>
           </View>
-          */
-         
-          <User user={this.state.user} /> 
-          
-        )}
-        
+        )
+      }
+
       if (this.state.user.role === 'ADMIN') {
         return (
-          //<AssignmentSolvers id= />
-          <Admin />
+          <View style={styles.adminContainer}>
+            <Admin />
+            <TouchableHighlight
+              style={styles.loginButtonContainer}
+              onPress={this._logout}
+            >
+              <Text style={styles.loginButton}>Logout</Text>
+            </TouchableHighlight>
+          </View>
         )
       }
       return (
@@ -103,7 +77,7 @@ export default class RootComponent extends React.Component {
     }
 
     return (
-// loggedInuser az koja amade ast, oncomælete ce mikonad ham dar inja ham dar ghesmate login
+      // loggedInuser az koja amade ast, oncomælete ce mikonad ham dar inja ham dar ghesmate login
       <View style={styles.container}>
 
         <Modal
@@ -113,27 +87,12 @@ export default class RootComponent extends React.Component {
           onRequestClose={() => { this.setState({ modalVisible: false }) }}
 
         >
-        
+
           <Login
             onComplete={(loggedInUser) => {
               this.setState({ modalVisible: false, user: loggedInUser })
             }} />
         </Modal>
-
-
-
-        {/*
-        <ListView
-          enableEmptySections={true}
-          dataSource={this.state.dataSource}
-          renderRow={(Assignment) => (
-            <Assignment
-              description={Assignment.description}
-              url={Assignment.url}
-            />
-          )}
-        />
-        */}
 
 
         <TouchableHighlight
@@ -156,9 +115,7 @@ export default class RootComponent extends React.Component {
 
   _logout = async () => {
     await AsyncStorage.removeItem('graphcoolToken').then(this.setState({ user: undefined }))
-  }
-  getAssignmentId  = async (id) =>{
-    await this.setState({assignmentId :id})
+    console.log(this.state.user)
   }
 
 }
@@ -168,6 +125,12 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     backgroundColor: 'black',
+    flex: 1,
+    paddingTop: 22,
+  },
+  adminContainer: {
+    justifyContent: 'center',
+    backgroundColor: 'white',
     flex: 1,
     paddingTop: 22,
   },
@@ -187,5 +150,4 @@ const styles = StyleSheet.create({
 
 })
 
-//export default graphql(allAssignmentsQuery, { name: 'allAssignmentsQuery' })(ListPage)
 

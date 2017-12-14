@@ -35,7 +35,7 @@ class AssignmentByRating extends React.Component {
 
 
     render() {
-        if (this.props.Query.loading) {
+        if (this.props.Query.loading || this.state.assignments === undefined) {
             return (
                 <View style={{ flex: 1, paddingTop: 20 }}>
                     <ActivityIndicator />

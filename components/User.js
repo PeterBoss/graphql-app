@@ -26,13 +26,14 @@ export default class User extends React.Component {
                 <Text style={styles.title}>
                     Rating: {this.props.user.rating}
                 </Text>
-
-                <PersonalizedAssignments rating={this.props.user.rating} />
+                
+                <PersonalizedAssignments user={this.props.user} />
 
                 <UserSolutions solutions={this.props.user.solutions} />
-            {
-                <NewSolution userId={this.props.user.id} />
-            }
+
+
+
+
             </ScrollView>
         )
     }

@@ -28,19 +28,9 @@ class CreatePage extends React.Component {
 
     state = {
 
-        url: '',
-        userId: undefined,
-        assignmentId: undefined
+        url: ''
     }
 
-    componentWillReceiveProps(nextProps) {
-
-        this.setState({
-            userId: nextProps.userId,
-            assignmentId: nextProps.assignmentId
-        })
-
-    }
 
     render() {
        
@@ -55,28 +45,29 @@ class CreatePage extends React.Component {
                     value={this.state.url}
                 />
 
-
-                <View>
-                    <TouchableHighlight
-                        style={styles.cancelButton}
-                        onPress={() => this.props.onComplete()}
-                    >
-                        <Text style={styles.cancelButtonText}>Cancel</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={styles.saveButton}
-                        onPress={() => this._submitSolution()}
-                    >
-                        <Text style={styles.saveButtonText}>Submit Solution</Text>
-                    </TouchableHighlight>
-                </View>
+                <View style={styles.buttons}>
+                <TouchableHighlight
+                    style={styles.cancelButton}
+                    onPress={() => this.props.onComplete()}
+                >
+                    <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                    style={styles.saveButton}
+                    onPress={() => this._submitSolution()}
+                >
+                    <Text style={styles.saveButtonText}>Submit</Text>
+                </TouchableHighlight>
+            </View>
 
             </View>
         )
     }
 
     _submitSolution = async () => {
-        const { url, userId, assignmentId } = this.state
+        const url = this.state.url
+        const userId = this.props.userId
+        const assignmentId = this.props.assignmentId
         await this.props.createSolutionMutation({
             variables: { url, userId, assignmentId }
         })
@@ -119,6 +110,12 @@ const styles = StyleSheet.create({
     },
     cancelButtonText: {
         color: 'white',
+    },
+    buttons: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
     },
 })
 
